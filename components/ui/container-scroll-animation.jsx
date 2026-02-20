@@ -10,14 +10,11 @@ export const ContainerScroll = ({ titleComponent, children }) => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
+    
     const handleScroll = () => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
-        const scrollProgress = Math.max(
-          0,
-          Math.min(1, (window.innerHeight - rect.top) / window.innerHeight),
-        );
+        const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / window.innerHeight));
         setScrollY(scrollProgress);
       }
     };
@@ -25,7 +22,7 @@ export const ContainerScroll = ({ titleComponent, children }) => {
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
     window.addEventListener("scroll", handleScroll);
-
+    
     return () => {
       window.removeEventListener("resize", checkScreenSize);
       window.removeEventListener("scroll", handleScroll);
@@ -44,10 +41,10 @@ export const ContainerScroll = ({ titleComponent, children }) => {
     >
       <div className="py-10 md:py-40 w-full relative">
         <Header translate={translateY} titleComponent={titleComponent} />
-        <Card
-          rotate={rotate}
-          translate={translateY}
-          scale={scale}
+        <Card 
+          rotate={rotate} 
+          translate={translateY} 
+          scale={scale} 
           className="max-w-5xl mx-auto h-[30rem] md:h-[40rem] w-full"
         >
           {children}
