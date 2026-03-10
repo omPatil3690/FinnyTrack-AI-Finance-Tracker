@@ -9,12 +9,16 @@ import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 
 function DashboardLayout({ children }) {
-  const { user } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
   const router = useRouter();
   
   useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.replace("/sign-in");
+      return;
+    }
     user && checkUserBudgets();
-  }, [user]);
+  }, [isLoaded, isSignedIn, user]);
 
   const checkUserBudgets = async () => {
     const result = await db

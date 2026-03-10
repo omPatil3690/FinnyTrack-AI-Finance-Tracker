@@ -18,7 +18,7 @@
    - `CLERK_SECRET_KEY`
    - `NEXT_PUBLIC_DATABASE_URL` (required for current client-side DB usage)
    - `DATABASE_URL` (recommended for migrations)
-   - `NEXT_PUBLIC_OPENAI_API_KEY` (optional)
+   - `OPENAI_API_KEY` (optional)
 
 4. Create the database tables:
    `npm run db:push`
@@ -34,4 +34,4 @@ Generated migrations are stored in `drizzle/`. If the folder is empty, run:
 ## Deployment note
 The current UI calls the database directly from client components. This requires using `NEXT_PUBLIC_DATABASE_URL`, which exposes the database connection string in the browser. For production deployment, move database access into API routes or server components and use `DATABASE_URL` only.
 
-Similarly, `NEXT_PUBLIC_OPENAI_API_KEY` exposes the OpenAI key in the browser. For production, move AI calls to a server route.
+AI advice now uses a server route. Keep `OPENAI_API_KEY` server-side and avoid `NEXT_PUBLIC_OPENAI_API_KEY`.

@@ -57,7 +57,7 @@ function Header() {
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <Link href="/dashboard">
+                <Link href="/sign-in">
                   <Button 
                     variant="outline" 
                     className="rounded-full border-2 hover:border-blue-500 hover:text-blue-600 transition-all duration-300"
