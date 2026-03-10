@@ -1,11 +1,19 @@
 // utils/getFinancialAdvice.js
 import OpenAI from "openai";
 
-// Initialize the OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+let openaiClient = null;
+
+const getOpenAIClient = () => {
+  const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+  if (!apiKey) return null;
+  if (!openaiClient) {
+    openaiClient = new OpenAI({
+      apiKey,
+      dangerouslyAllowBrowser: true,
+    });
+  }
+  return openaiClient;
+};
 
 // Function to fetch user-specific data (mocked for this example)
 
@@ -13,6 +21,10 @@ const openai = new OpenAI({
 const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend) => {
   console.log(totalBudget, totalIncome, totalSpend);
   try {
+    const client = getOpenAIClient();
+    if (!client) {
+      return "AI advice is disabled. Set NEXT_PUBLIC_OPENAI_API_KEY to enable it.";
+    }
     const userPrompt = `
       Based on the following financial data:
       - Total Budget: ${totalBudget} USD 
@@ -22,7 +34,7 @@ const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend) => {
     `;
 
     // Send the prompt to the OpenAI API
-    const chatCompletion = await openai.chat.completions.create({
+    const chatCompletion = await client.chat.completions.create({
       model: "gpt-4",
       messages: [{ role: "user", content: userPrompt }],
     });

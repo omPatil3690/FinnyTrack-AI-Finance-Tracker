@@ -4,7 +4,7 @@ import Image from "next/image";
 import {
   LayoutGrid,
   PiggyBank,
-  ReceiptText,
+  Receipt,
   ShieldCheck,
   CircleDollarSign,
   TrendingUp,
@@ -40,7 +40,7 @@ function SideNav() {
     {
       id: 4,
       name: "Expenses",
-      icon: ReceiptText,
+      icon: Receipt,
       path: "/dashboard/expenses",
     },
     {

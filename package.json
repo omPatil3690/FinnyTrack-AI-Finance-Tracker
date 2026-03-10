@@ -1,20 +1,43 @@
 {
   "name": "finnytrack",
   "version": "1.0.0",
-  "description": "��#\u0000 \u0000F\u0000i\u0000n\u0000n\u0000y\u0000T\u0000r\u0000a\u0000c\u0000k\u0000-\u0000A\u0000I\u0000-\u0000F\u0000i\u0000n\u0000a\u0000n\u0000c\u0000e\u0000-\u0000T\u0000r\u0000a\u0000c\u0000k\u0000e\u0000r\u0000\r\u0000 \u0000",
-  "main": "index.js",
+  "private": true,
+  "description": "FinnyTrack AI Finance Tracker",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/omPatil3690/FinnyTrack-AI-Finance-Tracker.git"
+  "dependencies": {
+    "@clerk/nextjs": "^5.0.0",
+    "@neondatabase/serverless": "^0.9.0",
+    "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "drizzle-orm": "^0.30.0",
+    "emoji-picker-react": "^4.7.0",
+    "lucide-react": "^0.300.0",
+    "moment": "^2.30.0",
+    "next": "^14.2.0",
+    "next-themes": "^0.3.0",
+    "openai": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.10.0",
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.2.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/omPatil3690/FinnyTrack-AI-Finance-Tracker/issues"
-  },
-  "homepage": "https://github.com/omPatil3690/FinnyTrack-AI-Finance-Tracker#readme"
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "dotenv": "^16.4.0",
+    "drizzle-kit": "^0.20.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0"
+  }
 }

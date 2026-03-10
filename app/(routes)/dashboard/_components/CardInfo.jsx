@@ -2,7 +2,7 @@ import formatNumber from "@/utils";
 import getFinancialAdvice from "@/utils/getFinancialAdvice";
 import {
   PiggyBank,
-  ReceiptText,
+  Receipt,
   Wallet,
   Sparkles,
   CircleDollarSign,
@@ -73,7 +73,7 @@ function CardInfo({ budgetList, incomeList }) {
     {
       title: "Total Spent",
       value: totalSpend,
-      icon: ReceiptText,
+      icon: Receipt,
       gradient: "from-red-500 to-red-600",
       bgColor: "bg-red-100",
       textColor: "text-red-700",
