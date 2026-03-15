@@ -2,6 +2,8 @@ import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 
+export const dynamic = "force-dynamic";
+
 const apiKey = process.env.GEMINI_API_KEY;
 const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const RATE_LIMIT_MAX = 5;
