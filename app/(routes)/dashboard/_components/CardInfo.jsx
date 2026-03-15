@@ -24,18 +24,31 @@ function CardInfo({ budgetList, incomeList }) {
   }, [budgetList, incomeList]);
 
   useEffect(() => {
-    if (totalBudget > 0 || totalIncome > 0 || totalSpend > 0) {
-      const fetchFinancialAdvice = async () => {
-        const advice = await getFinancialAdvice(
-          totalBudget,
-          totalIncome,
-          totalSpend
-        );
-        setFinancialAdvice(advice);
-      };
+    const hasAdviceData =
+      Number.isFinite(totalBudget) ||
+      Number.isFinite(totalIncome) ||
+      Number.isFinite(totalSpend);
 
-      fetchFinancialAdvice();
+    const hasNonZeroData =
+      (Number.isFinite(totalBudget) && totalBudget > 0) ||
+      (Number.isFinite(totalIncome) && totalIncome > 0) ||
+      (Number.isFinite(totalSpend) && totalSpend > 0);
+
+    if (!hasAdviceData || !hasNonZeroData) {
+      setFinancialAdvice("");
+      return;
     }
+
+    const fetchFinancialAdvice = async () => {
+      const advice = await getFinancialAdvice(
+        totalBudget,
+        totalIncome,
+        totalSpend
+      );
+      setFinancialAdvice(advice);
+    };
+
+    fetchFinancialAdvice();
   }, [totalBudget, totalIncome, totalSpend]);
 
   const CalculateCardInfo = () => {
@@ -60,6 +73,10 @@ function CardInfo({ budgetList, incomeList }) {
 
   const remainingBudget = totalBudget - totalSpend;
   const spendingPercentage = totalBudget > 0 ? (totalSpend / totalBudget) * 100 : 0;
+  const hasAdviceData =
+    (Number.isFinite(totalBudget) && totalBudget > 0) ||
+    (Number.isFinite(totalIncome) && totalIncome > 0) ||
+    (Number.isFinite(totalSpend) && totalSpend > 0);
 
   const cardData = [
     {
@@ -117,7 +134,10 @@ function CardInfo({ budgetList, incomeList }) {
                   </span>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
-                  {financialAdvice || "Analyzing your financial data to provide personalized insights..."}
+                  {hasAdviceData
+                    ? financialAdvice ||
+                      "Analyzing your financial data to provide personalized insights..."
+                    : "Add budgets, income, or spending to get AI insights."}
                 </p>
               </div>
             </div>
