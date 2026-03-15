@@ -11,19 +11,23 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
-function CardInfo({ budgetList, incomeList }) {
+function CardInfo({ budgetList, incomeList, budgetsLoaded = true, incomesLoaded = true }) {
   const [totalBudget, setTotalBudget] = useState(0);
   const [totalSpend, setTotalSpend] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
   const [financialAdvice, setFinancialAdvice] = useState("");
 
   useEffect(() => {
-    if (budgetList.length > 0 || incomeList.length > 0) {
-      CalculateCardInfo();
-    }
-  }, [budgetList, incomeList]);
+    if (!budgetsLoaded || !incomesLoaded) return;
+    CalculateCardInfo();
+  }, [budgetList, incomeList, budgetsLoaded, incomesLoaded]);
 
   useEffect(() => {
+    if (!budgetsLoaded || !incomesLoaded) {
+      setFinancialAdvice("");
+      return;
+    }
+
     const hasAdviceData =
       Number.isFinite(totalBudget) ||
       Number.isFinite(totalIncome) ||
@@ -49,7 +53,7 @@ function CardInfo({ budgetList, incomeList }) {
     };
 
     fetchFinancialAdvice();
-  }, [totalBudget, totalIncome, totalSpend]);
+  }, [totalBudget, totalIncome, totalSpend, budgetsLoaded, incomesLoaded]);
 
   const CalculateCardInfo = () => {
     console.log(budgetList);
