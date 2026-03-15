@@ -55,4 +55,19 @@ const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend) => {
   }
 };
 
+const getFinancialAdviceRemaining = async () => {
+  try {
+    const response = await fetch("/api/ai-advice", { method: "GET" });
+    if (!response.ok) {
+      return null;
+    }
+    const data = await response.json().catch(() => ({}));
+    return typeof data?.remaining === "number" ? data.remaining : null;
+  } catch (error) {
+    console.error("Error fetching AI remaining calls:", error);
+    return null;
+  }
+};
+
+export { getFinancialAdviceRemaining };
 export default getFinancialAdvice;

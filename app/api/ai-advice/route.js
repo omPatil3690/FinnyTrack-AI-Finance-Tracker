@@ -1,12 +1,17 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 const apiKey = process.env.GEMINI_API_KEY;
 const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000;
-const rateLimitStore = new Map();
+const RATE_LIMIT_STORE_KEY = "__finnytrackAiRateLimitStore";
+const rateLimitStore =
+  globalThis[RATE_LIMIT_STORE_KEY] || new Map();
+if (!globalThis[RATE_LIMIT_STORE_KEY]) {
+  globalThis[RATE_LIMIT_STORE_KEY] = rateLimitStore;
+}
 
 const getRateLimitEntry = (userId) => {
   const now = Date.now();
@@ -88,5 +93,21 @@ Provide detailed financial advice in 2 sentences to help the user manage their f
         : error?.message ||
           "Sorry, I couldn't fetch the financial advice at this moment. Please try again later.";
     return NextResponse.json({ message, remaining: null }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    const { userId } = auth();
+    if (!userId) {
+      return NextResponse.json({ remaining: null }, { status: 401 });
+    }
+
+    const entry = getRateLimitEntry(userId);
+    const remaining = Math.max(0, RATE_LIMIT_MAX - entry.count);
+    return NextResponse.json({ remaining });
+  } catch (error) {
+    console.error("AI advice rate limit check error:", error);
+    return NextResponse.json({ remaining: null }, { status: 500 });
   }
 }

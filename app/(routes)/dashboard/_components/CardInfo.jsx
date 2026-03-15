@@ -1,5 +1,7 @@
 import formatNumber from "@/utils";
-import getFinancialAdvice from "@/utils/getFinancialAdvice";
+import getFinancialAdvice, {
+  getFinancialAdviceRemaining,
+} from "@/utils/getFinancialAdvice";
 import {
   PiggyBank,
   Receipt,
@@ -39,6 +41,21 @@ function CardInfo({ budgetList, incomeList, budgetsLoaded = true, incomesLoaded 
         setAdviceRequested(true);
       }
     }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadRemaining = async () => {
+      const remaining = await getFinancialAdviceRemaining();
+      if (!isMounted) return;
+      if (typeof remaining === "number") {
+        setRemainingCalls(remaining);
+      }
+    };
+    loadRemaining();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
